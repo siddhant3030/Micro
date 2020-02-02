@@ -14,9 +14,15 @@ const (
 		author text NOT NULL,
 		content text NOT NULL,
 		created_at timestamp with time zone DEFAULT current_timestamp
-		)`
+		`
 )
 
+type Bulletin struct {
+	Author string `json:"author" binding: "required"`
+	Content string `json:"content" binding: "required"`
+	CreatedAt time.Time `json:"created_at" `
+}
+
 func main() {
-	
+
 }
