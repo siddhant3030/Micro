@@ -47,4 +47,20 @@ func main() {
 		}
 		context.JSON(http.StatusOK, results)
 	})
+
+	r.POST("/board", func(context *gin.Context) {
+		var b Bulletin
+		// reading the request's body & parsing the json
+		if context.Bind(&b) == nil {
+			b.CreatedAt = time.Now()
+			if err := AddBulletin(b); err != nil {
+				context.JSON(http.StatusInternalServerError, gin.H{"status": "internal error: " + err.Error()})
+				return
+			}
+			context.JSON(http.StatusOK, gin.H{"status": "ok"})
+			return
+		}
+		// if binding was not successful, return an error
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"status": "invalid body"})
+	})
 }
