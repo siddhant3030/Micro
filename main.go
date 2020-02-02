@@ -63,4 +63,23 @@ func main() {
 		// if binding was not successful, return an error
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"status": "invalid body"})
 	})
+
+	dbInfo := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", DbHost, DbUser, DbPassword, DbName)
+	db, err = sql.Open("postgres", dbInfo)
+	if err != nil {
+		panic(err)
+	}
+	// do not forget to close the connection
+	defer db.Close()
+	// ensuring the table is created
+	_, err = db.Query(Migration)
+	if err != nil {
+		log.Println("failed to run migrations", err.Error())
+		return
+	}
+	// running the http server
+	log.Println("running..")
+	if err := r.Run(":8080"); err != nil {
+		panic(err)
+	}
 }
