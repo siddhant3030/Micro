@@ -26,7 +26,11 @@ type Bulletin struct {
 var db *sql.DB
 
 func GetBulltins() ([]Bulletin, error){
-	return nil, nil 
+	return nil, nil
+}
+
+func AddBulletin(bulletin Bulletin) error {
+	return nil
 }
 
 
