@@ -25,8 +25,30 @@ type Bulletin struct {
 
 var db *sql.DB
 
-func GetBulltins() ([]Bulletin, error){
-	return nil, nil
+func GetBulletins() ([]Bulletin, error){
+	const q = `SELECT author, content, created_at FROM bulletins ORDER BY created_at DESC LIMIT 100`
+
+rows, err := db.Query(q)
+if err != nil {
+	return nil, err
+}
+
+results := make([]Bulletin, 0)
+
+for rows.Next() {
+	var author string
+	var content string
+	var createAt time.Time
+	// scanning the data from the returned rows
+	err = rows.Scan(&author, &content, &createAt)
+	if err != nil {
+		return nil, err
+	}
+	// creating a new result
+	results = append(results, Bulletin{author, content, createAt})
+}
+
+return results, nil
 }
 
 func AddBulletin(bulletin Bulletin) error {
