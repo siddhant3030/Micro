@@ -52,7 +52,9 @@ return results, nil
 }
 
 func AddBulletin(bulletin Bulletin) error {
-	return nil
+	const q = `INSERT INTO bulletins(author, content, created_at) VALUES ($1, $2, $3)`
+	_, err := db.Exec(q, bulletin.Author, bulletin.Content, bulletin.CreatedAt)
+	return err
 }
 
 
