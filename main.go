@@ -35,5 +35,16 @@ func AddBulletin(bulletin Bulletin) error {
 
 
 func main() {
-
+	var err error
+	// create a router with a default configuration
+	r := gin.Default()
+	// endpoint to retrieve all posted bulletins
+	r.GET("/board", func(context *gin.Context) {
+		results, err := GetBulletins()
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"status": "internal error: " + err.Error()})
+			return
+		}
+		context.JSON(http.StatusOK, results)
+	})
 }
