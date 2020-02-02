@@ -23,6 +23,13 @@ type Bulletin struct {
 	CreatedAt time.Time `json:"created_at" `
 }
 
+var db *sql.DB
+
+func GetBulltins() ([]Bulletin, error){
+	return nil, nil 
+}
+
+
 func main() {
 
 }
