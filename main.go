@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+)
+
 func main() {
-	println("it's over 9000!")
+	var power int
+	power = 9000
+	fmt.Printf("It's over %d\n", power)
 }
