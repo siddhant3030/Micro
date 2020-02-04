@@ -5,11 +5,9 @@ import (
 )
 
 func main() {
-	power := 9000
-	fmt.Printf("It's over %d\n", power)
+	power := 1000
+	fmt.Printf("default power is %d\n", power)
 
-	// COMPILER ERROR:
-	// no new variables on left side of :=
-	power := 9001
-	fmt.Printf("It's also over %d\n", power)
+	name, power := "Goku", 9000
+	fmt.Printf("%s's power is over %d\n", name, power)
 }
