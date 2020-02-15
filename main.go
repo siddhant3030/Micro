@@ -2,12 +2,20 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 )
 
-func main() {
-	power := 1000
-	fmt.Printf("default power is %d\n", power)
+func homePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Homepage endpoint Hit")
 
-	name, power := "Goku", 9000
-	fmt.Printf("%s's power is over %d\n", name, power)
+}
+
+func handleRequests() {
+	http.HandleFunc("/", homePage)
+	log.Fatal(http.ListenAndServe(":8081", nil))
+}
+
+func main() {
+	handleRequests()
 }
