@@ -15,10 +15,14 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 	myRouter.HandleFunc("/", helloWorld).Methods("GET")
+	myRouter.HandleFunc("/", AllPeoples).Methods("GET")
+	myRouter.HandleFunc("/user/{name}/{age}", NewPeople).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8081", myRouter))
 }
 
 func main() {
+
 	fmt.Println("GO orm tut")
+	InitialMigration()
 	handleRequests()
 }
