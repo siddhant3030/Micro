@@ -1,2 +1,4 @@
-package: .
-import: []
+package: https://github.com/siddhant3030/KubernetesApi/blob/master/glide.yaml
+import:
+- package: github.com/lib/pq
+  version: v1.3.0
