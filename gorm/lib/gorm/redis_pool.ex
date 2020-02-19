@@ -1,5 +1,5 @@
-defmodule Gorm.RediPool do
-  use GenServer
+defmodule Gorm.RedisPool do
+  use Supervisor
 
   @redis_connection_params host: Application.get_env(:gorm, :redis_host),
                            password: Application.get_env(:gorm, :redis_password),
@@ -7,7 +7,7 @@ defmodule Gorm.RediPool do
                            database: Application.get_env(:gorm, :redis_database)
 
   def start_link() do
-    GenServer.start_link(__MODULE__, [])
+    Supervisor.start_link(__MODULE__, [])
   end
 
   def init([]) do
@@ -22,7 +22,7 @@ defmodule Gorm.RediPool do
       :poolboy.child_spec(:redix_poolboy, pool_opts, @redis_connection_params)
     ]
 
-    supervise(children, strategy: :one_for_one, name: __MODULE__)
+    Supervisor.start_link(children, strategy: :one_for_one, name: __MODULE__)
   end
 
   def command(command) do
