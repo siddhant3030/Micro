@@ -14,6 +14,7 @@ defmodule Gorm.Application do
       GormWeb.Endpoint
       # Starts a worker by calling: Gorm.Worker.start_link(arg)
       # {Gorm.Worker, arg},
+      Gorm.RedisPool
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
