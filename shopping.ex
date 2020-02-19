@@ -22,11 +22,19 @@ defmodule ShoppingList do
     GenServer.cast(pid, {:remove, item})
   end
 
+  def stop(pid) do
+    GenServer.stop(pid, :normal, :infinity)
+  end
+
   #server
   #When Genserver.cast gets invoked then handle_cast callback is called
   def handle_cast({:remove_item}, list) do
     updated_list = Enum.reject(list, fn(i) -> i == item end)
     {:no_reply, updated_list}
+  end
+
+  def terminate(_reason, list) do
+    IO.puts("Shopping done")
   end
 
   def handle_cast(item, list) do
