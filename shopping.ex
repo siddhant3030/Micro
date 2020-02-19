@@ -18,8 +18,17 @@ defmodule ShoppingList do
     GenServer.call(pid, :view)
   end
 
+  def remove_item(pid, item) do
+    GenServer.cast(pid, {:remove, item})
+  end
+
   #server
   #When Genserver.cast gets invoked then handle_cast callback is called
+  def handle_cast({:remove_item}, list) do
+    updated_list = Enum.reject(list, fn(i) -> i == item end)
+    {:no_reply, updated_list}
+  end
+
   def handle_cast(item, list) do
     updated_list = [item|list]
     {:noreply, updated_list}
