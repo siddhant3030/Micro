@@ -6,7 +6,7 @@ defmodule Gorm.RedisPool do
                            port: Application.get_env(:gorm, :redis_port),
                            database: Application.get_env(:gorm, :redis_database)
 
-  def start_link() do
+  def start_link(_args) do
     Supervisor.start_link(__MODULE__, [])
   end
 
@@ -22,7 +22,7 @@ defmodule Gorm.RedisPool do
       :poolboy.child_spec(:redix_poolboy, pool_opts, @redis_connection_params)
     ]
 
-    Supervisor.start_link(children, strategy: :one_for_one, name: __MODULE__)
+    Supervisor.init(children, strategy: :one_for_one, name: __MODULE__)
   end
 
   def command(command) do
