@@ -31,6 +31,7 @@ func InitialMigration() {
 	db.AutoMigrate(&User{})
 }
 
+// logic for getting all the user
 func AllUsers(w http.ResponseWriter, r *http.Request) {
 	db, err = gorm.Open("postgres", "user=postgres password=postgres dbname=test sslmode=disable")
 	if err != nil {
@@ -43,6 +44,7 @@ func AllUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
+// insert function
 func NewUser(w http.ResponseWriter, r *http.Request) {
 	db, err = gorm.Open("postgres", "user=postgres password=postgres dbname=test sslmode=disable")
 	if err != nil {
