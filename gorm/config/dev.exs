@@ -30,11 +30,11 @@ config :gorm, GormWeb.Endpoint,
     ]
   ]
 
- config :gorm,
-    redis_host: "128.0.0.1",
-    redis_port: 6379,
-    redis_password: "",
-    redis_database: "test"
+#  config :gorm,
+#     redis_host: "128.0.0.1",
+#     redis_port: 6379,
+#     redis_password: "",
+#     redis_database: "test"
 
 # ## SSL Support
 #
