@@ -10,6 +10,10 @@ defmodule Gorm.RedisPool do
     Supervisor.start_link(__MODULE__, [])
   end
 
+
+  #Fault Tolerance
+  # This is just ensuring that phoenix keeps the cache running.
+
   def init([]) do
     pool_opts = [
       name: {:local, :redix_poolboy},
