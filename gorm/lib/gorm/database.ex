@@ -3,6 +3,8 @@ defmodule Gorm.Database do
   alias Gorm.Accounts
   alias Gorm.Accounts.User
   alias Gorm.Repo
+  alias Gorm.RedisPool
+
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, [])
@@ -21,12 +23,26 @@ defmodule Gorm.Database do
   end
 
   def set(pid, key, value) do
-    GenServer.call(pid, {:set, key, value})
+    GenServer.cast(pid, {:set, key, value})
   end
 
   def handle_call(:list, _from, state) do
     my_models = Accounts.list_users()
 
     {:reply, my_models, state}
+  end
+
+  def handle_call({:get, key}, _from, storage_pid) do
+    val = case RedisPool.retrieve(storage_pid, key) do
+      {:ok, value} -> value
+      nil -> nil
+    end
+    {:reply, val, storage_pid}
+  end
+
+  def handle_cast({:set, key, value}, storage_pid) do
+    {:ok, _key} = RedisPool.insert(storage_pid, key, value)
+
+    {:noreply, storage_pid}
   end
 end

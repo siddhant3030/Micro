@@ -11,10 +11,10 @@ defmodule Gorm.Application do
       # Start the Ecto repository
       Gorm.Repo,
       # Start the endpoint when the application starts
-      GormWeb.Endpoint
+      GormWeb.Endpoint,
       # Starts a worker by calling: Gorm.Worker.start_link(arg)
       # {Gorm.Worker, arg},
-      # {Gorm.RedisPool, []}
+      {Gorm.RedisPool, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

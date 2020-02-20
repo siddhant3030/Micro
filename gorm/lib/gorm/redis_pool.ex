@@ -36,4 +36,22 @@ defmodule Gorm.RedisPool do
   def pipeline(commands) do
     :poolboy.transaction(:redix_poolboy, &Redix.pipeline(&1, commands))
   end
+
+  def retrieve(key) do
+    case command(["GET", key]) do
+      {:ok, result} ->
+        result
+      _ ->
+        {:error, "Could not retreive #{key}"}
+    end
+  end
+
+  def insert(key, value) do
+    case command(["SET", key, value]) do
+      {:ok, result} ->
+        result
+      _ ->
+        {:error, "Error inserting #{key}: #{value}"}
+    end
+  end
 end
