@@ -41,13 +41,14 @@ defmodule Gorm.Database do
 
   def handle_cast({:set, key, value}, storage_pid) do
     {:ok, _key} = RedisPool.insert(storage_pid, key, value)
+  end
 end
 
 
 
 
-
-
+# Send the process after 10 seconds
+# Process.send_after()
 
 
 
