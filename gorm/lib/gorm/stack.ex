@@ -1,6 +1,21 @@
 defmodule Gorm.Stack do
   use GenServer
 
+
+ #client
+  def start_link(default) when is_list(default) do
+    GenServer.start_link(__MODULE__, default)
+  end
+
+  def push(pid, element) do
+    GenServer.cast(pid, {:push, element})
+  end
+
+  def pop(pid) do
+    GenServer.call(pid, :pop)
+  end
+
+  # server
   def init(stack) do
     {:ok, stack}
   end
