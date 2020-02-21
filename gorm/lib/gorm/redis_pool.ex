@@ -1,5 +1,6 @@
 defmodule Gorm.RedisPool do
   use Supervisor
+  alias Gorm.Database
 
   @redis_connection_params host: Application.get_env(:gorm, :redis_host),
                            password: Application.get_env(:gorm, :redis_password),
@@ -7,7 +8,7 @@ defmodule Gorm.RedisPool do
                            database: Application.get_env(:gorm, :redis_database)
 
   def start_link(_args) do
-    Supervisor.start_link(__MODULE__, [])
+    Supervisor.start_link(__MODULE__, [], name: Database)
   end
 
 
