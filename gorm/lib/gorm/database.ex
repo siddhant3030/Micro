@@ -13,13 +13,17 @@ defmodule Gorm.Database do
     {:ok, []}
   end
 
-  def get(pid, key) do
-    GenServer.call(pid, {:get, key})
+  def userone(pid, id) do
+    GenServer.call(pid, {:userone, id})
   end
 
-  def set(pid, key, value) do
-    Genserver.cast(pid, {:set, key, value})
-  end
+  # def get(pid, key) do
+  #   GenServer.call(pid, {:get, key})
+  # end
+
+  # def set(pid, key, value) do
+  #   GenServer.cast(pid, {:set, key, value})
+  # end
 
   def list(pid) do
     GenServer.call(pid, :list)
@@ -31,16 +35,9 @@ defmodule Gorm.Database do
     {:reply, my_models, state}
   end
 
-  def handle_call({:get, key}, _from, storage_pid) do
-    val = case RedisPool.retrieve(storage_pid, key) do
-      {:ok, value} -> value
-      nil -> nil
-    end
-    {:reply, val, storage_pid}
-  end
-
-  def handle_cast({:set, key, value}, storage_pid) do
-    {:ok, _key} = RedisPool.insert(storage_pid, key, value)
+  def handle_call({:userone, id}, _from, state) do
+    users = Accounts.get_user!(id)
+    {:reply, users, state}
   end
 end
 

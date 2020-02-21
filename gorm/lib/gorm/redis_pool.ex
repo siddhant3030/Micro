@@ -8,7 +8,7 @@ defmodule Gorm.RedisPool do
                            database: Application.get_env(:gorm, :redis_database)
 
   def start_link(_args) do
-    Supervisor.start_link(__MODULE__, [], name: Database)
+    Supervisor.start_link(__MODULE__, [], name: __MODULE__)
   end
 
 
@@ -18,9 +18,7 @@ defmodule Gorm.RedisPool do
   def init([]) do
     pool_opts = [
       name: {:local, :redix_poolboy},
-      worker_module: Redix,
-      size: 10,
-      max_overflow: 5,
+      worker_module: Database,
     ]
 
     children = [
