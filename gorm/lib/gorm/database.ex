@@ -31,12 +31,13 @@ defmodule Gorm.Database do
   #   GenServer.call(storage_pid, {:get, key})
   # end
 
-  def set(, key, value) do
+  def set({pid, key, value}) do
     GenServer.cast(pid, {:set, key, value})
   end
 
-  def handle_cast({:set, key, value}, pid) do
-    {:ok, pid} = Redix.command(pid, key, value)
+  def handle_cast({:set, key, value}, _from, state) do
+    user = Redix.command(state, ["SET", key, value])
+    {:no_reply, user, state}
   end
 
 
@@ -55,8 +56,8 @@ defmodule Gorm.Database do
   end
 
   def handle_call({:userone, id}, _from, state) do
-    users = Accounts.get_user!(id)
-    {:reply, users, state}
+    user = Accounts.get_user!(id)
+    {:reply, user, state}
   end
 end
 
