@@ -68,4 +68,46 @@ end
 
 
 
+#Example
+
+# iex(1)> alias Gorm.Database
+# Gorm.Database
+# iex(2)> Database.start_link("redis://127.0.0.1:6379")
+# [info] connect to url redis://127.0.0.1:6379
+# {:ok, #PID<0.448.0>}
+# iex(3)> {:ok, pid} =  Database.start_link("redis://127.0.0.1:6379")
+# [info] connect to url redis://127.0.0.1:6379
+# {:ok, #PID<0.452.0>}
+# iex(4)> pid
+# #PID<0.452.0>
+# iex(5)> Database.check(pid)
+# "PONG"
+# iex(6)> Database.set(pid, "onetwo", "three")
+# {:ok, {:ok, "OK"}}
+# iex(7)> Database.get(pid, "onetwo")
+# {:ok, {:ok, "three"}}
+# iex(8)>
+
+
+# 127.0.0.1:6379>  KEYS '*'
+#  1) "queues"
+#  2) "title"
+#  3) "stat:failed:2019-09-06"
+#  4) "stat:processed:2019-09-06"
+#  5) "mykey"
+#  6) "processes"
+#  7) "stat:processed"
+#  8) "stat:failed"
+#  9) "onetwo"
+# 10) "stat:processed:2019-09-04"
+# 11) "stat:failed:2019-09-07"
+# 12) "stat:failed:2019-09-04"
+# 13) "stat:processed:2019-09-07"
+# 14) "queue:default"
+# 127.0.0.1:6379> GET onetwo
+# "three"
+# 127.0.0.1:6379>
+
+
+
 
