@@ -18,14 +18,6 @@ defmodule Gorm.Database do
     end
   end
 
-# iex(3)> {:ok, conn} = Database.start_link("redis://localhost:6379/3")
-# [info] connect to url redis://localhost:6379/3
-# {:ok, #PID<0.458.0>}
-# iex(4)> conn
-# #PID<0.458.0>
-# iex(5)> Database.check(conn)
-# "PONG"
-
   def check(pid) do
     GenServer.call(pid, :check)
   end
@@ -34,26 +26,6 @@ defmodule Gorm.Database do
     checking = Redix.command!(state, ["PING"])
     {:reply, checking, state}
   end
-
-
-  # def insert(key, value) do
-  #   {:ok, conn} =   Redix.start_link("redis://localhost:6379/3", name: :redix)
-  #   {:ok, reply} = Redix.command(conn, ["SET", key, value])
-  # end
-
-  # def fetch(pid, userone) do
-  #   case get(pid) do
-  #     {:not_found} -> set(pid, userone.())
-  #     {:found, result} -> result
-  #   end
-  # end
-
-  # defp get(pid) do
-  #   case GenServer.call(pid, {:get, slug}) do
-  #     [] -> {:not_found}
-  #     [{_slug, result}] -> {:found, result}
-  #   end
-  # end
 
   def get(pid, key) do
     GenServer.call(pid, {:get, key})
@@ -72,12 +44,6 @@ defmodule Gorm.Database do
     reply = Redix.command(state, ["SET", key, value])
     {:reply, {:ok, reply}, state}
   end
-
-  # def handle_cast({:set, key, value}, _from, state) do
-  #   {:ok, conn} = Redix.start_link("redis://localhost:6379/3", name: :redix)
-  #   {:ok, reply} = Redix.command(state, ["SET", key, value])
-  #   {:no_reply, user, state}
-  # end
 
 
   def userone(pid, id) do
@@ -99,15 +65,6 @@ defmodule Gorm.Database do
     {:reply, user, state}
   end
 end
-
-
-
-
-# Send the process after 10 seconds
-# Process.send_after()
-
-
-
 
 
 
