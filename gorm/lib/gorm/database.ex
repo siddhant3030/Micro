@@ -3,6 +3,8 @@ defmodule Gorm.Database do
   require Logger
   alias Gorm.Accounts
 
+  # "redis://localhost:6379/3"
+
 
   def start_link(url) do
     GenServer.start_link(__MODULE__, {url})
@@ -53,13 +55,22 @@ defmodule Gorm.Database do
   #   end
   # end
 
-  def set({pid, key, value}) do
+  def get(pid, key) do
+    GenServer.call(pid, {:get, key})
+  end
+
+  def handle_call({:get, key}, _from, state) do
+    reply = Redix.command(state, ["GET", key])
+    {:reply, {:ok, reply}, state}
+  end
+
+  def set(pid, key, value) do
     GenServer.call(pid, {:set, key, value})
   end
 
   def handle_call({:set, key, value}, _from, state) do
-    {:ok, reply} = Redix.command(state, ["SET", key, value])
-    {:no_reply, reply, state}
+    reply = Redix.command(state, ["SET", key, value])
+    {:reply, {:ok, reply}, state}
   end
 
   # def handle_cast({:set, key, value}, _from, state) do
