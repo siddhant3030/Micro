@@ -1,30 +1,36 @@
 defmodule Gorm.Database do
   use GenServer
+  require Logger
   alias Gorm.Accounts
 
 
-  @redis_connection_params host: Application.get_env(:gorm, :redis_host),
-                           password: Application.get_env(:gorm, :redis_password),
-                           port: Application.get_env(:gorm, :redis_port),
-                           database: Application.get_env(:gorm, :redis_database)
-
-
-  def start_link(_args) do
-    GenServer.start_link(__MODULE__, [], name: __MODULE__)
+  def start_link(url) do
+    GenServer.start_link(__MODULE__, {url})
   end
 
-  def init([]) do
-    pool_opts = [
-      worker_module: Redix,
-      size: 10,
-      max_overflow: 5
-    ]
+  def init({url}) do
+    Logger.info("connect to url #{url}");
+    case Redix.start_link(url) do
+      {:ok, conn} -> {:ok, conn}
+      {:error, err} -> {:error, err}
+    end
+  end
 
-    children = [
-      :poolboy.child_spec(pool_opts, @redis_connection_params)
-    ]
+# iex(3)> {:ok, conn} = Database.start_link("redis://localhost:6379/3")
+# [info] connect to url redis://localhost:6379/3
+# {:ok, #PID<0.458.0>}
+# iex(4)> conn
+# #PID<0.458.0>
+# iex(5)> Database.check(conn)
+# "PONG"
 
-    Supervisor.init(children, strategy: :one_for_one, name: __MODULE__)
+  def check(pid) do
+    GenServer.call(pid, :check)
+  end
+
+  def handle_call(:check, _from, state) do
+    checking = Redix.command!(state, ["PING"])
+    {:reply, checking, state}
   end
 
 
@@ -47,13 +53,14 @@ defmodule Gorm.Database do
   #   end
   # end
 
-  # def set({pid, key, value}) do
-  #   GenServer.cast(pid, {:set, key, value})
-  # end
+  def set({pid, key, value}) do
+    GenServer.call(pid, {:set, key, value})
+  end
 
-  # def handle_cast({:set, key, value}, _from, state) do
-
-  # end
+  def handle_call({:set, key, value}, _from, state) do
+    {:ok, reply} = Redix.command(state, ["SET", key, value])
+    {:no_reply, reply, state}
+  end
 
   # def handle_cast({:set, key, value}, _from, state) do
   #   {:ok, conn} = Redix.start_link("redis://localhost:6379/3", name: :redix)
