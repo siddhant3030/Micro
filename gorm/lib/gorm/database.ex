@@ -27,18 +27,39 @@ defmodule Gorm.Database do
     Supervisor.init(children, strategy: :one_for_one, name: __MODULE__)
   end
 
-  # def get(pid, key) do
-  #   GenServer.call(storage_pid, {:get, key})
+
+  # def insert(key, value) do
+  #   {:ok, conn} =   Redix.start_link("redis://localhost:6379/3", name: :redix)
+  #   {:ok, reply} = Redix.command(conn, ["SET", key, value])
   # end
 
-  def set({pid, key, value}) do
-    GenServer.cast(pid, {:set, key, value})
-  end
+  # def fetch(pid, userone) do
+  #   case get(pid) do
+  #     {:not_found} -> set(pid, userone.())
+  #     {:found, result} -> result
+  #   end
+  # end
 
-  def handle_cast({:set, key, value}, _from, state) do
-    user = Redix.command(state, ["SET", key, value])
-    {:no_reply, user, state}
-  end
+  # defp get(pid) do
+  #   case GenServer.call(pid, {:get, slug}) do
+  #     [] -> {:not_found}
+  #     [{_slug, result}] -> {:found, result}
+  #   end
+  # end
+
+  # def set({pid, key, value}) do
+  #   GenServer.cast(pid, {:set, key, value})
+  # end
+
+  # def handle_cast({:set, key, value}, _from, state) do
+
+  # end
+
+  # def handle_cast({:set, key, value}, _from, state) do
+  #   {:ok, conn} = Redix.start_link("redis://localhost:6379/3", name: :redix)
+  #   {:ok, reply} = Redix.command(state, ["SET", key, value])
+  #   {:no_reply, user, state}
+  # end
 
 
   def userone(pid, id) do

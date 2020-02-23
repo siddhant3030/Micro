@@ -31,7 +31,7 @@ config :gorm, GormWeb.Endpoint,
   ]
 
  config :gorm,
-    redis_host: "128.0.0.2",
+    redis_host: "127.0.0.1",
     redis_port: 6379,
     redis_password: "",
     redis_database: "test"
