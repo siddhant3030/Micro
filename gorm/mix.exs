@@ -46,7 +46,8 @@ defmodule Gorm.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:poolboy, "~> 1.5"},
       {:redix, ">= 0.0.0"},
-      {:redis, "~> 0.1"}
+      {:redis, "~> 0.1"},
+      {:poison, "~> 3.1"}
     ]
   end
 
