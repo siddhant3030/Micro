@@ -5,7 +5,7 @@ defmodule Gorm.Database do
 
   # "redis://localhost:6379/3"
 
-
+  #connect the redis server
   def start_link(url) do
     GenServer.start_link(__MODULE__, {url})
   end
@@ -18,48 +18,57 @@ defmodule Gorm.Database do
     end
   end
 
+  # checking the connection if it's connected to redis or not
   def check(pid) do
     GenServer.call(pid, :check)
   end
 
+  # handle call for check function
   def handle_call(:check, _from, state) do
     checking = Redix.command!(state, ["PING"])
     {:reply, checking, state}
   end
 
+  # get the key function
   def get(pid, key) do
     GenServer.call(pid, {:get, key})
   end
 
+  # handle call for get function
   def handle_call({:get, key}, _from, state) do
     reply = Redix.command(state, ["GET", key])
     {:reply, {:ok, reply}, state}
   end
 
+  # set the key function
   def set(pid, key, value) do
     GenServer.call(pid, {:set, key, value})
   end
 
+  # handle call for set function
   def handle_call({:set, key, value}, _from, state) do
     reply = Redix.command(state, ["SET", key, value])
     {:reply, {:ok, reply}, state}
   end
 
-
+  # Get the single user from the database
   def userone(pid, id) do
     GenServer.call(pid, {:userone, id})
   end
 
+  # Get the list of user from the database
   def list(pid) do
     GenServer.call(pid, :list)
   end
 
+  # handle call for the list function
   def handle_call(:list, _from, state) do
     my_models = Accounts.list_users()
 
     {:reply, my_models, state}
   end
 
+  # handle call for the single user function
   def handle_call({:userone, id}, _from, state) do
     user = Accounts.get_user!(id)
     {:reply, user, state}
