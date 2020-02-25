@@ -48,7 +48,8 @@ defmodule Gorm.MixProject do
       {:redix, ">= 0.0.0"},
       {:redis, "~> 0.1"},
       {:poison, "~> 3.1"},
-      {:exq, "~> 0.13.5"}
+      {:exq, "~> 0.13.5"},
+      {:ja_serializer, github: "vt-elixir/ja_serializer"}
     ]
   end
 
