@@ -1,4 +1,4 @@
-defmodule Gorm.UserController do
+defmodule GormWeb.UserController do
   use GormWeb, :controller
   alias Gorm.Accounts.User
   alias Gorm.Accounts
@@ -8,4 +8,11 @@ defmodule Gorm.UserController do
     render(conn, "index.json", users: users)
   end
 
+  def create(conn, %{"user" => user_params}) do
+    with {:ok, %User{} = user} <- Accounts.create_bank(user_params) do
+     conn
+     |> put_status(:created)
+     |> render("show.json-api", data: user)
+   end
+ end
 end

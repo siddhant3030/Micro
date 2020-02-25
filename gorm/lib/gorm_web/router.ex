@@ -13,10 +13,17 @@ defmodule GormWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :json_api do
+    plug :accepts, ["json-api"]
+    plug JaSerializer.Deserializer
+  end
+
+
   scope "/", GormWeb do
-    pipe_through :browser
+    pipe_through :json_api
 
     get "/", PageController, :index
+    resources "users", UserController
   end
 
   # Other scopes may use custom stacks.
