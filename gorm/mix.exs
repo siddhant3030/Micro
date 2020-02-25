@@ -47,7 +47,8 @@ defmodule Gorm.MixProject do
       {:poolboy, "~> 1.5"},
       {:redix, ">= 0.0.0"},
       {:redis, "~> 0.1"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:exq, "~> 0.13.5"}
     ]
   end
 
