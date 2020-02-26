@@ -1,6 +1,7 @@
 defmodule Gorm.SetWorker do
 
-  def perform(key, value) do
-    Redix.command!("SET", key, value)
+  def perform(conn, key, value) do
+    IO.inspect("oenas")
+    Redix.command!(conn, ["SET", key, value])
   end
 end
