@@ -2,6 +2,7 @@ defmodule Gorm.Database do
   use GenServer
   require Logger
   alias Gorm.Accounts
+  alias Gorm.SetWorker
 
   # "redis://localhost:6379/3"
 
@@ -46,9 +47,9 @@ defmodule Gorm.Database do
   end
 
   # handle call for set function
-  def handle_call({:set, key, value}, _from, state) do
-    reply = Redix.command(state, ["SET", key, value])
-    {:reply, reply, state}
+  def handle_call({:set, key, value}, _from, _state) do
+    reply =  Exq.enqueue(Exq, "q1", SetWorker, [key, value])
+    {:reply, reply, _state}
   end
 
   def handle_call({:set, key, value}, _from, state) when is_map(value) do

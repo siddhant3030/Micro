@@ -30,6 +30,11 @@ config :logger, :console,
   concurrency: 500,
   queues: ["q1"]
 
+  config :exq_ui,
+  web_port: 4040,
+  web_namespace: "",
+  server: true
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

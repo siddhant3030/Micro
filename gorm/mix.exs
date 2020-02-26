@@ -49,7 +49,8 @@ defmodule Gorm.MixProject do
       {:redis, "~> 0.1"},
       {:poison, "~> 3.1"},
       {:exq, "~> 0.13.5"},
-      {:ja_serializer, github: "vt-elixir/ja_serializer"}
+      {:ja_serializer, github: "vt-elixir/ja_serializer"},
+      {:exq_ui, "~> 0.11.0"}
     ]
   end
 
