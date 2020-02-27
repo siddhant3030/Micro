@@ -6,10 +6,7 @@ import { StaticRouter, matchPath } from "react-router-dom";
 import serialize from "serialize-javascript";
 import routes from "../shared/routes";
 import App from "../shared/App";
-import { Provider } from "react-redux";
 import sourceMapSupport from "source-map-support";
-import configureStore from "../shared/configureStore";
-import { Helmet } from "react-helmet";
 
 if (process.env.NODE_ENV === "development") {
   sourceMapSupport.install();
@@ -20,11 +17,10 @@ const app = express();
 app.use(cors());
 app.use(express.static("public"));
 app.get("*", (req, res, next) => {
-  var store = configureStore();
 
   const promises = routes.reduce((acc, route) => {
-    if (matchPath(req.url, route) && route.component && route.component.initialAction) {
-      acc.push(Promise.resolve(store.dispatch(route.component.initialAction())));
+    if (matchPath(req.url, route) && route.component) {
+      acc.push(Promise.resolve());
     }
     return acc;
   }, []);
@@ -33,27 +29,22 @@ app.get("*", (req, res, next) => {
     .then(() => {
       const context = {};
       const markup = renderToString(
-        <Provider store={store}>
+
           <StaticRouter location={req.url} context={context}>
             <App />
           </StaticRouter>
-        </Provider>
+
       );
 
-      const initialData = store.getState();
 
-      const helmet = Helmet.renderStatic();
 
       res.send(`
       <!DOCTYPE html>
       <html>
         <head>
-          ${helmet.title.toString()}
-          ${helmet.meta.toString()}
           <link rel="stylesheet" href="/css/main.css">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
           <script src="/bundle.js" defer></script>
-          <script>window.__initialData__ = ${serialize(initialData)}</script>
         </head>
 
         <body>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AppHeader from "../../components/AppHeader";
 import AppFooter from "../../components/AppFooter";
 import PageContent from "../../components/PageContent";
+import Users from "../../components/Users";
 
 class Home extends Component {
 
@@ -18,7 +19,7 @@ class Home extends Component {
 
   render() {
 
-    let activeComponent = this.state.activeTab=='users'? 'users' :'topusers'
+    let activeComponent = this.state.activeTab=='users'? <Users/> : 'topusers'
     return (
         <div className="container-fluid">
           <AppHeader />

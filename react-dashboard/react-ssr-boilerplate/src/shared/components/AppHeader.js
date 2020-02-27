@@ -8,7 +8,7 @@ class AppHeader extends Component {
         <header>
           <nav className="navbar navbar-light bg-light">
             <Link to={"/"} className="navbar-brand mb-0 h1">
-              RevisionPros
+Gamezop: DASHBOARD
             </Link>
           </nav>
         </header>
