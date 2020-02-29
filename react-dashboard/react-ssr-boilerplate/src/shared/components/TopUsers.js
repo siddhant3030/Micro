@@ -1,37 +1,21 @@
 import React, { Component } from 'react'
-import Axios from 'axios';
 
-export default class Users extends Component {
-    constructor(){
+export default class TopUsers extends Component {
+     constructor(){
         super();
         this.state = {
-            users :[],
-            topUser:[]
+            users :"",
+            
         }
     }
 
-    async componentDidMount(){
-        const data = await Axios.get('https://jsonplaceholder.typicode.com/users');
-        console.log("users", data.data)
-        this.setState({users:data.data})
+     componentDidMount(){
+        console.log("top users",this.props.topUsers);
+        this.setState({users:this.props.topUsers})
     }
-handleClick =(id,index)=>{
-    const {getTopUsers} = this.props;
-    const found = this.state.users.find(element => element.id == id);
-   const sliced= this.state.users.slice(index, id);
-   this.state.topUser.push(sliced[0]);
-//    const newTopUser= {...this.state.topUser,...sliced[0]};
-//    console.log("new user",this.state.topUser,)
 
-
-    this.state.users.splice(index,1);
-    
-    this.setState({})
-    getTopUsers(this.state.topUser);
-
-   
-}
     render() {
+        console.log("top  users",this.state.users)
         return (
             <div>
             {this.state.users.length>0 &&<table class="table">

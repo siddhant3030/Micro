@@ -3,23 +3,29 @@ import AppHeader from "../../components/AppHeader";
 import AppFooter from "../../components/AppFooter";
 import PageContent from "../../components/PageContent";
 import Users from "../../components/Users";
+import TopUsers from "../../components/TopUsers";
 
 class Home extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      activeTab:'users'
+      activeTab:'users',
+      topUsers:[]
     }
   }
 
   componentDidMount() {
 
   }
+  getTopUsers = (users)=>{
+    this.setState({topUsers:users});
+    console.log("new user",users)
+  }
 
   render() {
 
-    let activeComponent = this.state.activeTab=='users'? <Users/> : 'topusers'
+    let activeComponent = this.state.activeTab=='users'? <Users getTopUsers={this.getTopUsers}/> : <TopUsers topUsers={this.state.topUsers}/>;
     return (
         <div className="container-fluid">
           <AppHeader />
