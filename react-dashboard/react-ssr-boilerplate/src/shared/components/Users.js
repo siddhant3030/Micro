@@ -24,7 +24,7 @@ handleClick =(id,index)=>{
 //    console.log("new user",this.state.topUser,)
 
 
-    this.state.users.splice(index,1);
+    // this.state.users.splice(index,1); [if we don't want the same user in user navigation]
     
     this.setState({})
     getTopUsers(this.state.topUser);
