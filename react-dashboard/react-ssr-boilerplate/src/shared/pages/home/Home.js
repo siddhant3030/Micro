@@ -4,6 +4,7 @@ import AppFooter from "../../components/AppFooter";
 import PageContent from "../../components/PageContent";
 import Users from "../../components/Users";
 import TopUsers from "../../components/TopUsers";
+// import HideText from "../../components/HideText";
 
 class Home extends Component {
 
