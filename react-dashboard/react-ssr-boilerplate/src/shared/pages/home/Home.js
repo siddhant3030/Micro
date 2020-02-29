@@ -29,6 +29,13 @@ class Home extends Component {
     let activeComponent = this.state.activeTab=='users'? <Users getTopUsers={this.getTopUsers}/> : <TopUsers topUsers={this.state.topUsers}/>;
     return (
         <div className="container-fluid">
+          <div className="sidenav">
+            <a href="#home">Home</a>
+            <a href="#sports">Sports</a>
+            <a href="#news">News</a>
+            <a href="#logout">Logout</a>
+          </div>
+          <div className="main">
           <AppHeader />
           <ul className="nav nav-tabs">
             <li className="nav-item">
@@ -39,9 +46,14 @@ class Home extends Component {
             </li>
           </ul>
           <PageContent>
-            {activeComponent}
+        
+          
+          {activeComponent}
+       
+            
           </PageContent>
           <AppFooter />
+             </div>
         </div>
 
     );

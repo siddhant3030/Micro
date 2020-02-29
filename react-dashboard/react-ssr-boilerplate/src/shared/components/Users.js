@@ -77,7 +77,7 @@ handleSearch = ()=>{
         if(user.name.includes(searchText)){
 
             return user;
-        }else if(user.email==searchText){
+        }else if(user.email.includes(searchText)){
             return user;
         }
     });
