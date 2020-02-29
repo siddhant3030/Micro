@@ -17,7 +17,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-
   }
   getTopUsers = (users)=>{
     this.setState({topUsers:users});

@@ -37,43 +37,53 @@ handleClick =(id,index)=>{
 
    
 }
+
+handleBlockUser = (e, user)=>{
+    console.log("handleBlockUser CLICKED", e.target.value, user);
+    let allBlockedUser = JSON.parse(localStorage.getItem("blockedUsers") || "[]");
+    console.log("allBlockedUser", allBlockedUser);
+    allBlockedUser = !allBlockedUser  ? [] : allBlockedUser
+    console.log("allBlockedUser", allBlockedUser);
+    allBlockedUser.push(user)
+    localStorage.setItem('blockedUsers',JSON.stringify(allBlockedUser) )
+}
+
     render() {
         return (
             <div>
-            {this.state.users.length>0 &&<table class="table">
-  <thead>
-    <tr>
-      <th scope="col"></th>
-       <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-    </tr>
-  </thead>
-  <tbody>
+            {this.state.users.length>0 &&<table className="table">
+            <thead>
+                <tr>
+                <th scope="col"></th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Blocked/Unblocked</th>
+                </tr>
+            </thead>
+            <tbody>
                 {
                     this.state.users.map((user,index)=>{
-                        console.log("user", user)
                         return(
-                            <tr>
+                            <tr key={index}>
                                 <td><input type="checkbox" onClick={()=>this.handleClick(user.id,index)}/></td>
                                 <th scope="row">{user.id}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-
                                 <td>
-                                    <label class="switch">
-                                    <input type="checkbox"/>
-                                    <span class="slider round"></span>
+                                    <label className="switch">
+                                        <input type="checkbox" onChange = {(e)=>this.handleBlockUser(e, user)}/>
+                                        <span className="slider round"></span>
                                     </label>
                                 </td>
 
                             </tr>
-                        )
-                    })
-                }
-
+                            )
+                        })
+                    }
                 </tbody>
-                </table>}
+            </table>
+            }
             </div>
         )
     }
