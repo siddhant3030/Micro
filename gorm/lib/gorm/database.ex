@@ -42,14 +42,14 @@ defmodule Gorm.Database do
   end
 
   # set the key function
-  def set(pid, key, value) do
-    GenServer.call(pid, {:set, key, value})
+  def set(conn, key, value) do
+    GenServer.call(conn, {:set, key, value})
   end
 
   # handle call for set function
-  def handle_call({:set, key, value}, _from, state) do
-    reply =  Exq.enqueue(Exq, "q1", SetWorker, [conn, key, value])
-    {:reply, reply, state}
+  def handle_call({:set, key, value}, _from, state ) do
+    state = Exq.enqueue(Exq, "q1", SetWorker, [key, value])
+    {:reply, state, state}
   end
 
   def handle_call({:set, key, value}, _from, state) when is_map(value) do
