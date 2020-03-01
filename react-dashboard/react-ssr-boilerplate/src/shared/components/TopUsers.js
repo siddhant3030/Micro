@@ -21,7 +21,7 @@ export default class TopUsers extends Component {
             {this.state.users.length>0 &&<table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">ID</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
     </tr>
